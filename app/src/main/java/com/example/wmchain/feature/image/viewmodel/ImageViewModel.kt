@@ -83,12 +83,13 @@ class ImageViewModel(private val workManager: WorkManager): ViewModel() {
         val processImageRequest = OneTimeWorkRequestBuilder<GrayScaleWorker>()
             .build()
         processImageRequestId = processImageRequest.id
-        workManager.beginUniqueWork(
-            UNIQUE_WORK_NAME,
-            ExistingWorkPolicy.REPLACE,
-            downloadRequest
-        )
-            .then(processImageRequest)
-            .enqueue()
+        workManager
+            .beginUniqueWork(
+                UNIQUE_WORK_NAME,  // Unique name for this work chain
+                ExistingWorkPolicy.REPLACE,         // Replace any existing unfinished chain
+                downloadRequest                     // First worker
+            )
+            .then(processImageRequest)       // Executes only after download succeeds
+            .enqueue()                              // Submit the chain to WorkManager
     }
 }

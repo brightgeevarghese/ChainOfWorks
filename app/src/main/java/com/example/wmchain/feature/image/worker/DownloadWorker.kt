@@ -10,7 +10,8 @@ import kotlinx.coroutines.delay
 import java.io.File
 import java.net.URL
 
-class DownloadWorker(context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
+class DownloadWorker(context: Context, workerParams: WorkerParameters) :
+    CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result {
         return runCatching {
             val urlString = inputData.getString("url") ?: return Result.failure()
@@ -22,7 +23,9 @@ class DownloadWorker(context: Context, workerParams: WorkerParameters) : Corouti
             file.writeBytes(imageBytes)
             Log.d("DownloadWorker", "Image downloaded to ${file.absolutePath}")
             delay(3000)
+            //Create output data
             val output = workDataOf("image_path" to file.absolutePath)
+            //Return the output data
             Result.success(output)
         }.fold(
             onSuccess = {
@@ -34,5 +37,5 @@ class DownloadWorker(context: Context, workerParams: WorkerParameters) : Corouti
             }
         )
     }
-
 }
+
