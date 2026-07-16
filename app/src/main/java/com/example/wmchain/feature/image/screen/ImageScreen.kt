@@ -16,7 +16,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
+
 import com.example.wmchain.feature.image.viewmodel.ImageViewModel
 
 @Composable
